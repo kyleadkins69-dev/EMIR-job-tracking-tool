@@ -1,115 +1,200 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>EMIR job tracking tool</title>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
-:root{
-  --primary:#0b5ed7;
-  --bg:#f4f6f9;
-  --card:#ffffff;
-  --text:#1f2937;
-  --muted:#6b7280;
-  --border:#e5e7eb;
+:root {
+  --primary: #0b5ed7;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
 }
 
-*{box-sizing:border-box;font-family:Segoe UI, Arial, sans-serif;}
+* {
+  box-sizing: border-box;
+  font-family: Segoe UI, Arial, sans-serif;
+}
 
-body{margin:0;background:var(--bg);color:var(--text);}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
 
 /* HEADER */
-.header{
-  background:#fff;
-  border-bottom:1px solid var(--border);
-  padding:12px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.header {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.header img{height:34px;}
-.header .title{font-weight:600;font-size:14px;}
+
+.header img {
+  height: 34px;
+  max-width: 50%;
+  object-fit: contain;
+}
+
+.header .title {
+  font-weight: 600;
+  font-size: 14px;
+  text-align: right;
+}
 
 /* LAYOUT */
-.container{max-width:520px;margin:30px auto;padding:0 16px;}
-
-.screen{display:none;}
-.active{display:block;}
-
-.card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:20px;
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
+.container {
+  max-width: 520px;
+  margin: 30px auto;
+  padding: 0 16px;
 }
 
-label{display:block;font-size:13px;color:var(--muted);margin-top:14px;margin-bottom:6px;}
-
-input,select{
-  width:100%;
-  padding:12px;
-  font-size:15px;
-  border:1px solid var(--border);
-  border-radius:8px;
+.screen {
+  display: none;
 }
 
-button{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  font-weight:600;
-  font-size:14px;
-  cursor:pointer;
-  margin-top:10px;
+.active {
+  display: block;
 }
 
-.primary{background:#e83d30;color:#fff;}
-.secondary{background:#f3f4f6;border:1px solid var(--border);}
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: #e83d30;
+  color: #fff;
+}
+
+.secondary {
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+}
+
+/* PRE-FILLED LINK MESSAGE */
+.prefill-notice {
+  display: none;
+  background: #eef6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.prefill-notice strong {
+  display: block;
+  margin-bottom: 4px;
+}
 
 /* BARCODE */
-.barcode-wrap{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:18px;
-  margin-top:16px;
-  text-align:center;
+.barcode-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 16px;
+  text-align: center;
 }
-.barcode-title{font-size:13px;color:var(--muted);}
-.barcode-value{font-size:20px;font-weight:600;margin:6px 0 10px;}
-svg{width:100%;}
 
-.nav{display:flex;gap:10px;}
-.nav button{flex:1;background:#f3f4f6;border:1px solid var(--border);}
+.barcode-title {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.barcode-value {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 6px 0 10px;
+  overflow-wrap: anywhere;
+}
+
+svg {
+  width: 100%;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav button {
+  flex: 1;
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+}
 
 /* SCANNER */
-#scanner{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#fff;
-  z-index:9999;
-  padding:12px;
-  overflow:auto;
+#scanner {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  padding: 12px;
+  overflow: auto;
 }
 
-#reader{
-  width:100%;
-  max-height:45vh;
-  overflow:hidden;
-  border-radius:10px;
+#reader {
+  width: 100%;
+  max-height: 45vh;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
-#scanValue{
-  font-size:20px;
-  font-weight:600;
-  margin:16px 0;
+#scanValue {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
 }
 </style>
 </head>
@@ -118,184 +203,419 @@ svg{width:100%;}
 
 <!-- HEADER -->
 <div class="header">
-  <img src="https://hayley247.co.uk/wp-content/uploads/2024/03/hayley_247.svg">
+  <img
+    src="https://hayley247.co.uk/wp-content/uploads/2024/03/hayley_247.svg"
+    alt="Company logo"
+  />
   <div class="title">EMIR job tracking tool</div>
 </div>
 
 <div class="container">
 
-<!-- SETUP -->
-<div id="setupScreen" class="screen">
+  <!-- SETUP SCREEN -->
+  <div id="setupScreen" class="screen">
 
-  <div class="card">
+    <div class="card">
 
-    <label for="username">Username</label>
-    <input id="username" placeholder="Enter username" autocomplete="username">
+      <div id="prefillNotice" class="prefill-notice">
+        <strong>Job details loaded</strong>
+        Details have been filled in from Machine Shop
+        Task Manager. Please check them before
+        generating barcodes.
+      </div>
 
-    <label>Job Number</label>
-    <input id="jobNumber" placeholder="e.g. 123456/A">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        placeholder="Enter username"
+        autocomplete="username"
+      />
 
-    <button type="button" class="secondary" onclick="startScan()">
-      Scan Job Number
-    </button>
+      <label for="jobNumber">Job Number</label>
+      <input
+        id="jobNumber"
+        placeholder="e.g. 123456/A"
+      />
 
-    <label>Task</label>
-    <select id="taskSelect"></select>
+      <button
+        type="button"
+        class="secondary"
+        onclick="startScan()"
+      >
+        Scan Job Number
+      </button>
 
-    <button class="primary" onclick="generateSequence()">
-      Generate Barcodes
-    </button>
+      <label for="taskSelect">Task</label>
+      <select id="taskSelect"></select>
+
+      <button
+        type="button"
+        class="primary"
+        onclick="generateSequence()"
+      >
+        Generate Barcodes
+      </button>
+
+    </div>
 
   </div>
 
-</div>
+  <!-- BARCODE SCREEN -->
+  <div id="barcodeScreen" class="screen">
 
-<!-- BARCODE -->
-<div id="barcodeScreen" class="screen">
+    <div class="card">
 
-  <div class="card">
+      <div
+        class="barcode-title"
+        id="barcodeTitle"
+      ></div>
 
-    <div class="barcode-title" id="barcodeTitle"></div>
-    <div class="barcode-value" id="barcodeText"></div>
+      <div
+        class="barcode-value"
+        id="barcodeText"
+      ></div>
 
-    <div class="barcode-wrap">
-      <svg id="barcode"></svg>
+      <div class="barcode-wrap">
+        <svg id="barcode"></svg>
+      </div>
+
+      <div class="nav">
+        <button
+          type="button"
+          onclick="prevBarcode()"
+        >
+          ◀ Previous
+        </button>
+
+        <button
+          type="button"
+          onclick="nextBarcode()"
+        >
+          Next ▶
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="secondary"
+        onclick="backToMenu()"
+      >
+        New Job
+      </button>
+
     </div>
-
-    <div class="nav">
-      <button onclick="prevBarcode()">◀ Previous</button>
-      <button onclick="nextBarcode()">Next ▶</button>
-    </div>
-
-    <button class="secondary" onclick="backToMenu()">New Job</button>
 
   </div>
-
-</div>
 
 </div>
 
 <!-- SCANNER -->
 <div id="scanner">
+
   <div id="reader"></div>
 
   <div class="card">
-    <div style="font-size:12px;color:#6b7280;">Live Scan</div>
-    <div id="scanValue">Waiting for scan...</div>
 
-    <button id="acceptBtn" class="primary" onclick="acceptScan()" disabled>Accept Scan</button>
-    <button class="secondary" onclick="rescanScan()">Scan Again</button>
-    <button class="secondary" onclick="stopScan()">Cancel</button>
+    <div style="font-size:12px;color:#6b7280;">
+      Live Scan
+    </div>
+
+    <div id="scanValue">
+      Waiting for scan...
+    </div>
+
+    <button
+      id="acceptBtn"
+      type="button"
+      class="primary"
+      onclick="acceptScan()"
+      disabled
+    >
+      Accept Scan
+    </button>
+
+    <button
+      type="button"
+      class="secondary"
+      onclick="rescanScan()"
+    >
+      Scan Again
+    </button>
+
+    <button
+      type="button"
+      class="secondary"
+      onclick="stopScan()"
+    >
+      Cancel
+    </button>
+
   </div>
+
 </div>
 
 <script>
+"use strict";
 
-/* TASKS */
-const tasks=[
-{name:"Admin",code:"AD",needsJob:false},
-{name:"Breakdown",code:"BDOWN",needsJob:false},
-{name:"CAD",code:"CAD",needsJob:true},
-{name:"Driving",code:"DR",needsJob:false},
-{name:"END",code:"END",needsJob:false},
-{name:"Housekeeping",code:"HK",needsJob:false},
-{name:"Inspection",code:"INSP",needsJob:true},
-{name:"Milling",code:"MILL",needsJob:true},
-{name:"Plant Repair",code:"PL",needsJob:false},
-{name:"Slotting",code:"SLOT",needsJob:true},
-{name:"Team Leading",code:"TL",needsJob:false},
-{name:"Training",code:"TR",needsJob:false},
-{name:"Turning",code:"TURN",needsJob:true},
-{name:"Waiting Time",code:"WT",needsJob:false}
+/*
+  TASK DEFINITIONS
+
+  These names and codes are preserved from
+  the original EMIR barcode application.
+*/
+const tasks = [
+  { name: "Admin",         code: "AD",    needsJob: false },
+  { name: "Breakdown",     code: "BDOWN", needsJob: false },
+  { name: "CAD",           code: "CAD",   needsJob: true  },
+  { name: "Driving",       code: "DR",    needsJob: false },
+  { name: "END",           code: "END",   needsJob: false },
+  { name: "Housekeeping",  code: "HK",    needsJob: false },
+  { name: "Inspection",    code: "INSP",  needsJob: true  },
+  { name: "Milling",       code: "MILL",  needsJob: true  },
+  { name: "Plant Repair",  code: "PL",    needsJob: false },
+  { name: "Slotting",      code: "SLOT",  needsJob: true  },
+  { name: "Team Leading",  code: "TL",    needsJob: false },
+  { name: "Training",      code: "TR",    needsJob: false },
+  { name: "Turning",       code: "TURN",  needsJob: true  },
+  { name: "Waiting Time",  code: "WT",    needsJob: false }
 ];
 
-const taskSelect=document.getElementById("taskSelect");
+const taskSelect = document.getElementById("taskSelect");
 
-tasks.forEach(t=>{
-  const o=document.createElement("option");
-  o.value=t.name;
-  o.textContent=t.name;
-  taskSelect.appendChild(o);
+tasks.forEach(task => {
+  const option = document.createElement("option");
+  option.value = task.name;
+  option.textContent = task.name;
+  taskSelect.appendChild(option);
 });
 
-let barcodeSequence=[];
-let currentIndex=0;
+let barcodeSequence = [];
+let currentIndex = 0;
 
 /* SCREEN CONTROL */
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
   document.getElementById(id).classList.add("active");
 }
 
-/* INIT */
-window.onload=function(){
-  document.getElementById("username").value=localStorage.getItem("lastUsername")||"";
-  document.getElementById("jobNumber").value=localStorage.getItem("lastJob")||"";
-  showScreen("setupScreen");
-};
+/*
+  NEW: QR LINK PRE-FILL SUPPORT
 
-/* BARCODE */
-function generateSequence(){
-  const task=tasks.find(t=>t.name===taskSelect.value);
-  const jobNumber=document.getElementById("jobNumber").value.trim();
-  const username=document.getElementById("username").value.trim().toUpperCase();
+  Supported URL parameters:
 
-  if(!task) return alert("Select task");
-  if(!username) return alert("Enter username");
-  if(!/^[A-Z0-9 .\-$/+%]+$/.test(username)) return alert("Username contains characters not supported by CODE39 barcodes");
-  if(task.needsJob && !jobNumber) return alert("Enter job number");
+  ?username=EMPLOYEEA&job=10452&task=Turning
 
-  localStorage.setItem("lastUsername",username);
-  localStorage.setItem("lastJob",jobNumber);
-  barcodeSequence=[{title:"Employee",value:username}];
+  Also accepts:
+  employee instead of username
+  jobNumber instead of job
 
-  if(task.needsJob){
-    barcodeSequence.push({title:"Job Number",value:jobNumber.toUpperCase()});
+  Task can be the task name or EMIR task code.
+
+  URL parameters take priority over previously
+  saved values.
+
+  Nothing is submitted automatically.
+*/
+function loadPrefilledDetails() {
+  const params = new URLSearchParams(window.location.search);
+
+  const usernameParam =
+    params.get("username") ?? params.get("employee");
+
+  const jobParam =
+    params.get("job") ?? params.get("jobNumber");
+
+  const taskParam = params.get("task");
+
+  const usernameInput =
+    document.getElementById("username");
+
+  const jobInput =
+    document.getElementById("jobNumber");
+
+  usernameInput.value =
+    usernameParam !== null
+      ? usernameParam.trim().toUpperCase()
+      : (localStorage.getItem("lastUsername") || "");
+
+  jobInput.value =
+    jobParam !== null
+      ? jobParam.trim().toUpperCase()
+      : (localStorage.getItem("lastJob") || "");
+
+  let validTaskProvided = false;
+
+  if (taskParam !== null) {
+    const requestedTask = taskParam.trim().toUpperCase();
+
+    const matchedTask = tasks.find(task =>
+      task.name.toUpperCase() === requestedTask ||
+      task.code.toUpperCase() === requestedTask
+    );
+
+    if (matchedTask) {
+      taskSelect.value = matchedTask.name;
+      validTaskProvided = true;
+    }
   }
 
-  barcodeSequence.push({title:"Task",value:task.code});
+  const hasPrefilledDetails =
+    usernameParam !== null ||
+    jobParam !== null ||
+    validTaskProvided;
 
-  currentIndex=0;
+  document.getElementById("prefillNotice").style.display =
+    hasPrefilledDetails ? "block" : "none";
+
+  showScreen("setupScreen");
+}
+
+/* INITIALISE */
+window.addEventListener("DOMContentLoaded", loadPrefilledDetails);
+
+/*
+  BARCODE GENERATION
+
+  Preserves the original CODE39 barcode
+  sequence used for EMIR.
+*/
+function generateSequence() {
+  const task = tasks.find(
+    task => task.name === taskSelect.value
+  );
+
+  const jobNumber = document
+    .getElementById("jobNumber")
+    .value
+    .trim()
+    .toUpperCase();
+
+  const username = document
+    .getElementById("username")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if (!task) {
+    alert("Select task");
+    return;
+  }
+
+  if (!username) {
+    alert("Enter username");
+    return;
+  }
+
+  const code39Pattern = /^[A-Z0-9 .\-$/+%]+$/;
+
+  if (!code39Pattern.test(username)) {
+    alert(
+      "Username contains characters not supported by CODE39 barcodes"
+    );
+    return;
+  }
+
+  if (task.needsJob && !jobNumber) {
+    alert("Enter job number");
+    return;
+  }
+
+  if (task.needsJob && !code39Pattern.test(jobNumber)) {
+    alert(
+      "Job number contains characters not supported by CODE39 barcodes"
+    );
+    return;
+  }
+
+  localStorage.setItem("lastUsername", username);
+  localStorage.setItem("lastJob", jobNumber);
+
+  barcodeSequence = [
+    {
+      title: "Employee",
+      value: username
+    }
+  ];
+
+  if (task.needsJob) {
+    barcodeSequence.push({
+      title: "Job Number",
+      value: jobNumber
+    });
+  }
+
+  barcodeSequence.push({
+    title: "Task",
+    value: task.code
+  });
+
+  currentIndex = 0;
+
   showScreen("barcodeScreen");
   showBarcode();
 }
 
-function showBarcode(){
-  const item=barcodeSequence[currentIndex];
+function showBarcode() {
+  const item = barcodeSequence[currentIndex];
 
-  document.getElementById("barcodeTitle").innerText=item.title;
-  document.getElementById("barcodeText").innerText=item.value;
+  if (!item) {
+    return;
+  }
 
-  document.getElementById("barcode").innerHTML="";
+  document.getElementById("barcodeTitle").innerText =
+    item.title;
 
-  JsBarcode("#barcode",item.value,{
-    format:"CODE39",
-    displayValue:false,
-    height:90,
-    width:2,
-    margin:10
-  });
+  document.getElementById("barcodeText").innerText =
+    item.value;
+
+  document.getElementById("barcode").innerHTML = "";
+
+  try {
+    JsBarcode("#barcode", item.value, {
+      format: "CODE39",
+      displayValue: false,
+      height: 90,
+      width: 2,
+      margin: 10
+    });
+  } catch (error) {
+    console.error("Barcode generation failed:", error);
+    alert("Could not generate barcode. Please check the details.");
+    showScreen("setupScreen");
+  }
 }
 
-function nextBarcode(){
-  if(currentIndex<barcodeSequence.length-1){
+function nextBarcode() {
+  if (currentIndex < barcodeSequence.length - 1) {
     currentIndex++;
     showBarcode();
   }
 }
 
-function prevBarcode(){
-  if(currentIndex>0){
+function prevBarcode() {
+  if (currentIndex > 0) {
     currentIndex--;
     showBarcode();
   }
 }
 
-function backToMenu(){
+function backToMenu() {
   showScreen("setupScreen");
 }
 
-/* SCANNER */
+/*
+  CAMERA SCANNER
+
+  Original scanning workflow preserved:
+  - Find camera
+  - Scan job number
+  - Require three matching detections
+  - Accept or rescan
+  - Cancel safely
+*/
 let html5QrCode = null;
 let lastScanValue = "";
 let sameCount = 0;
@@ -303,97 +623,162 @@ let confirmedScan = "";
 let scanSession = 0;
 let scannerStarting = false;
 
-function resetScanResult(){
+function resetScanResult() {
   lastScanValue = "";
   sameCount = 0;
   confirmedScan = "";
-  document.getElementById("scanValue").innerText = "Waiting for scan...";
+
+  document.getElementById("scanValue").innerText =
+    "Waiting for scan...";
+
   document.getElementById("acceptBtn").disabled = true;
 }
 
-async function cleanupScanner(scanner){
-  if(!scanner) return;
+async function cleanupScanner(scanner) {
+  if (!scanner) {
+    return;
+  }
+
   try {
-    // stop() rejects when the camera was never successfully started.
-    if(scanner.getState && scanner.getState() === Html5QrcodeScannerState.SCANNING){
+    if (
+      scanner.getState &&
+      scanner.getState() === Html5QrcodeScannerState.SCANNING
+    ) {
       await scanner.stop();
     }
-  } catch(err){
-    console.warn("Could not stop scanner:", err);
+  } catch (error) {
+    console.warn("Could not stop scanner:", error);
   }
-  try { scanner.clear(); } catch(err) { console.warn("Could not clear scanner:", err); }
+
+  try {
+    scanner.clear();
+  } catch (error) {
+    console.warn("Could not clear scanner:", error);
+  }
 }
 
-async function startScan(){
-  // Avoid overlapping camera initialization requests.
-  if(scannerStarting || document.getElementById("scanner").style.display === "block") return;
+async function startScan() {
+  if (
+    scannerStarting ||
+    document.getElementById("scanner").style.display === "block"
+  ) {
+    return;
+  }
+
   const session = ++scanSession;
+
   scannerStarting = true;
+
   document.getElementById("scanner").style.display = "block";
+
   resetScanResult();
 
   let scanner = null;
+
   try {
     scanner = new Html5Qrcode("reader");
     html5QrCode = scanner;
-    const devices = await Html5Qrcode.getCameras();
-    if(session !== scanSession) return;
-    if(!devices || !devices.length) throw new Error("No camera available");
 
-    const backCam = devices.find(d => {
-      const label = (d.label || "").toLowerCase();
-      return label.includes("back") || label.includes("rear") || label.includes("environment");
+    const devices = await Html5Qrcode.getCameras();
+
+    if (session !== scanSession) {
+      return;
+    }
+
+    if (!devices || !devices.length) {
+      throw new Error("No camera available");
+    }
+
+    const backCam = devices.find(device => {
+      const label = (device.label || "").toLowerCase();
+
+      return (
+        label.includes("back") ||
+        label.includes("rear") ||
+        label.includes("environment")
+      );
     });
+
     const cameraId = (backCam || devices[0]).id;
 
-    await scanner.start(cameraId, {fps:10, qrbox:{width:240,height:360}}, decodedText => {
-      if(session !== scanSession) return;
-      document.getElementById("scanValue").innerText = decodedText;
-      if(decodedText === lastScanValue){
-        sameCount++;
-      } else {
-        lastScanValue = decodedText;
-        sameCount = 1;
+    await scanner.start(
+      cameraId,
+      {
+        fps: 10,
+        qrbox: {
+          width: 240,
+          height: 360
+        }
+      },
+      decodedText => {
+        if (session !== scanSession) {
+          return;
+        }
+
+        document.getElementById("scanValue").innerText =
+          decodedText;
+
+        if (decodedText === lastScanValue) {
+          sameCount++;
+        } else {
+          lastScanValue = decodedText;
+          sameCount = 1;
+        }
+
+        if (sameCount >= 3) {
+          confirmedScan = decodedText;
+
+          document.getElementById("acceptBtn").disabled =
+            false;
+        }
       }
-      if(sameCount >= 3){
-        confirmedScan = decodedText;
-        document.getElementById("acceptBtn").disabled = false;
-      }
-    });
-  } catch(err){
-    if(session === scanSession){
-      console.error("Scanner failed to start:", err);
-      document.getElementById("scanValue").innerText = "Camera unavailable. You can cancel and enter the job number manually.";
+    );
+
+  } catch (error) {
+    if (session === scanSession) {
+      console.error("Scanner failed to start:", error);
+
+      document.getElementById("scanValue").innerText =
+        "Camera unavailable. You can cancel and enter the job number manually.";
     }
   } finally {
     scannerStarting = false;
-    // If Cancel was pressed during camera startup, release the camera now.
-    if(session !== scanSession){
+
+    if (session !== scanSession) {
       await cleanupScanner(scanner);
     }
   }
 }
 
-function acceptScan(){
-  if(!confirmedScan) return;
-  document.getElementById("jobNumber").value = confirmedScan;
+function acceptScan() {
+  if (!confirmedScan) {
+    return;
+  }
+
+  document.getElementById("jobNumber").value =
+    confirmedScan;
+
   stopScan();
 }
 
-function rescanScan(){
+function rescanScan() {
   resetScanResult();
 }
 
-function stopScan(){
-  // Hide immediately, even if permission is pending or no barcode was read.
+function stopScan() {
   ++scanSession;
-  document.getElementById("scanner").style.display = "none";
-  const scanner = html5QrCode;
-  html5QrCode = null;
-  // If startup is pending, startScan() will clean it up in its finally block.
-  if(!scannerStarting) void cleanupScanner(scanner);
-}
 
+  document.getElementById("scanner").style.display =
+    "none";
+
+  const scanner = html5QrCode;
+
+  html5QrCode = null;
+
+  if (!scannerStarting) {
+    void cleanupScanner(scanner);
+  }
+}
 </script>
 
 </body>
