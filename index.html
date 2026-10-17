@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light" />
 <title>EMIR job tracking tool</title>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -11,6 +12,7 @@
 
 <style>
 :root {
+  color-scheme: light;
   --primary: #0b5ed7;
   --bg: #f4f6f9;
   --card: #ffffff;
@@ -24,6 +26,10 @@
   font-family: Segoe UI, Arial, sans-serif;
 }
 
+html {
+  color-scheme: light;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -31,8 +37,9 @@ body {
 }
 
 /* HEADER */
+
 .header {
-  background: #fff;
+  background: #ffffff;
   border-bottom: 1px solid var(--border);
   padding: 12px 18px;
   display: flex;
@@ -53,6 +60,7 @@ body {
 }
 
 /* LAYOUT */
+
 .container {
   max-width: 520px;
   margin: 30px auto;
@@ -68,7 +76,7 @@ body {
 }
 
 .card {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 20px;
@@ -88,6 +96,8 @@ select {
   width: 100%;
   padding: 12px;
   font-size: 15px;
+  color: #1f2937;
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 8px;
 }
@@ -110,15 +120,17 @@ button:disabled {
 
 .primary {
   background: #e83d30;
-  color: #fff;
+  color: #ffffff;
 }
 
 .secondary {
   background: #f3f4f6;
+  color: #1f2937;
   border: 1px solid var(--border);
 }
 
 /* PRE-FILLED LINK MESSAGE */
+
 .prefill-notice {
   display: none;
   background: #eef6ff;
@@ -136,8 +148,12 @@ button:disabled {
 }
 
 /* BARCODE */
+
 .barcode-wrap {
-  background: #fff;
+  background: #ffffff !important;
+  color: #000000 !important;
+  color-scheme: light;
+  forced-color-adjust: none;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 18px;
@@ -155,10 +171,19 @@ button:disabled {
   font-weight: 600;
   margin: 6px 0 10px;
   overflow-wrap: anywhere;
+  color: #000000 !important;
 }
 
-svg {
+.barcode-wrap svg {
   width: 100%;
+  background: #ffffff !important;
+  color-scheme: light;
+  forced-color-adjust: none;
+}
+
+.barcode-wrap svg rect,
+.barcode-wrap svg path {
+  fill: #000000 !important;
 }
 
 .nav {
@@ -169,15 +194,17 @@ svg {
 .nav button {
   flex: 1;
   background: #f3f4f6;
+  color: #1f2937;
   border: 1px solid var(--border);
 }
 
 /* SCANNER */
+
 #scanner {
   display: none;
   position: fixed;
   inset: 0;
-  background: #fff;
+  background: #ffffff;
   z-index: 9999;
   padding: 12px;
   overflow: auto;
@@ -202,6 +229,7 @@ svg {
 <body>
 
 <!-- HEADER -->
+
 <div class="header">
   <img
     src="https://hayley247.co.uk/wp-content/uploads/2024/03/hayley_247.svg"
@@ -213,6 +241,7 @@ svg {
 <div class="container">
 
   <!-- SETUP SCREEN -->
+
   <div id="setupScreen" class="screen">
 
     <div class="card">
@@ -261,6 +290,7 @@ svg {
   </div>
 
   <!-- BARCODE SCREEN -->
+
   <div id="barcodeScreen" class="screen">
 
     <div class="card">
@@ -309,7 +339,8 @@ svg {
 
 </div>
 
-<!-- SCANNER -->
+<!-- CAMERA SCANNER -->
+
 <div id="scanner">
 
   <div id="reader"></div>
@@ -357,12 +388,8 @@ svg {
 <script>
 "use strict";
 
-/*
-  TASK DEFINITIONS
+/* TASK DEFINITIONS */
 
-  These names and codes are preserved from
-  the original EMIR barcode application.
-*/
 const tasks = [
   { name: "Admin",         code: "AD",    needsJob: false },
   { name: "Breakdown",     code: "BDOWN", needsJob: false },
@@ -393,6 +420,7 @@ let barcodeSequence = [];
 let currentIndex = 0;
 
 /* SCREEN CONTROL */
+
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
@@ -401,24 +429,8 @@ function showScreen(id) {
   document.getElementById(id).classList.add("active");
 }
 
-/*
-  NEW: QR LINK PRE-FILL SUPPORT
+/* QR LINK PRE-FILL SUPPORT */
 
-  Supported URL parameters:
-
-  ?username=EMPLOYEEA&job=10452&task=Turning
-
-  Also accepts:
-  employee instead of username
-  jobNumber instead of job
-
-  Task can be the task name or EMIR task code.
-
-  URL parameters take priority over previously
-  saved values.
-
-  Nothing is submitted automatically.
-*/
 function loadPrefilledDetails() {
   const params = new URLSearchParams(window.location.search);
 
@@ -473,15 +485,13 @@ function loadPrefilledDetails() {
   showScreen("setupScreen");
 }
 
-/* INITIALISE */
-window.addEventListener("DOMContentLoaded", loadPrefilledDetails);
+window.addEventListener(
+  "DOMContentLoaded",
+  loadPrefilledDetails
+);
 
-/*
-  BARCODE GENERATION
+/* GENERATE EMIR BARCODE SEQUENCE */
 
-  Preserves the original CODE39 barcode
-  sequence used for EMIR.
-*/
 function generateSequence() {
   const task = tasks.find(
     task => task.name === taskSelect.value
@@ -558,6 +568,8 @@ function generateSequence() {
   showBarcode();
 }
 
+/* DISPLAY BARCODE */
+
 function showBarcode() {
   const item = barcodeSequence[currentIndex];
 
@@ -577,16 +589,39 @@ function showBarcode() {
     JsBarcode("#barcode", item.value, {
       format: "CODE39",
       displayValue: false,
+
+      /* Original barcode dimensions */
       height: 90,
       width: 2,
-      margin: 10
+      margin: 10,
+
+      /* High-contrast colours */
+      lineColor: "#000000",
+      background: "#ffffff"
     });
+
+    /*
+      Explicitly preserve barcode colours,
+      including on phones using dark mode.
+    */
+    const barcodeSvg = document.getElementById("barcode");
+
+    barcodeSvg.style.backgroundColor = "#ffffff";
+    barcodeSvg.style.colorScheme = "light";
+    barcodeSvg.style.forcedColorAdjust = "none";
+
   } catch (error) {
     console.error("Barcode generation failed:", error);
-    alert("Could not generate barcode. Please check the details.");
+
+    alert(
+      "Could not generate barcode. Please check the details."
+    );
+
     showScreen("setupScreen");
   }
 }
+
+/* BARCODE NAVIGATION */
 
 function nextBarcode() {
   if (currentIndex < barcodeSequence.length - 1) {
@@ -606,16 +641,8 @@ function backToMenu() {
   showScreen("setupScreen");
 }
 
-/*
-  CAMERA SCANNER
+/* CAMERA SCANNER */
 
-  Original scanning workflow preserved:
-  - Find camera
-  - Scan job number
-  - Require three matching detections
-  - Accept or rescan
-  - Cancel safely
-*/
 let html5QrCode = null;
 let lastScanValue = "";
 let sameCount = 0;
@@ -669,7 +696,8 @@ async function startScan() {
 
   scannerStarting = true;
 
-  document.getElementById("scanner").style.display = "block";
+  document.getElementById("scanner").style.display =
+    "block";
 
   resetScanResult();
 
