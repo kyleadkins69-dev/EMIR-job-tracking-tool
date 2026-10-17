@@ -1,19 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="color-scheme" content="light" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+
 <title>EMIR job tracking tool</title>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
+
+/* ========================================
+   COLOURS AND BROWSER SETTINGS
+======================================== */
+
 :root {
-  color-scheme: light;
-  --primary: #0b5ed7;
+  color-scheme: only light;
+
   --bg: #f4f6f9;
   --card: #ffffff;
   --text: #1f2937;
@@ -23,25 +29,31 @@
 
 * {
   box-sizing: border-box;
-  font-family: Segoe UI, Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 html {
-  color-scheme: light;
+  color-scheme: only light;
+  background: #f4f6f9;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: #f4f6f9;
+  color: #1f2937;
+  color-scheme: only light;
 }
 
-/* HEADER */
+/* ========================================
+   HEADER
+======================================== */
 
 .header {
   background: #ffffff;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e5e7eb;
+
   padding: 12px 18px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,9 +69,12 @@ body {
   font-weight: 600;
   font-size: 14px;
   text-align: right;
+  color: #1f2937;
 }
 
-/* LAYOUT */
+/* ========================================
+   MAIN LAYOUT
+======================================== */
 
 .container {
   max-width: 520px;
@@ -71,22 +86,32 @@ body {
   display: none;
 }
 
-.active {
+.screen.active {
   display: block;
 }
 
 .card {
   background: #ffffff;
-  border: 1px solid var(--border);
+  color: #1f2937;
+
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
+
   padding: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
+
+/* ========================================
+   INPUTS
+======================================== */
 
 label {
   display: block;
+
   font-size: 13px;
-  color: var(--muted);
+  color: #6b7280;
+
   margin-top: 14px;
   margin-bottom: 6px;
 }
@@ -94,27 +119,39 @@ label {
 input,
 select {
   width: 100%;
+
   padding: 12px;
   font-size: 15px;
+
   color: #1f2937;
   background: #ffffff;
-  border: 1px solid var(--border);
+
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
+
+  color-scheme: only light;
 }
+
+/* ========================================
+   BUTTONS
+======================================== */
 
 button {
   width: 100%;
   padding: 12px;
+
   border-radius: 8px;
   border: none;
+
   font-weight: 600;
   font-size: 14px;
+
   cursor: pointer;
   margin-top: 10px;
 }
 
 button:disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -126,18 +163,26 @@ button:disabled {
 .secondary {
   background: #f3f4f6;
   color: #1f2937;
-  border: 1px solid var(--border);
+
+  border: 1px solid #e5e7eb;
 }
 
-/* PRE-FILLED LINK MESSAGE */
+/* ========================================
+   QR LINK NOTICE
+======================================== */
 
 .prefill-notice {
   display: none;
+
   background: #eef6ff;
+  color: #1f2937;
+
   border: 1px solid #bfdbfe;
   border-radius: 8px;
+
   padding: 12px;
   margin-bottom: 14px;
+
   font-size: 13px;
   line-height: 1.5;
 }
@@ -147,44 +192,104 @@ button:disabled {
   margin-bottom: 4px;
 }
 
-/* BARCODE */
+/* ========================================
+   BARCODE DISPLAY
 
-.barcode-wrap {
-  background: #ffffff !important;
-  color: #000000 !important;
-  color-scheme: light;
-  forced-color-adjust: none;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px;
-  margin-top: 16px;
-  text-align: center;
-}
+   IMPORTANT:
+   Barcode is drawn onto a canvas and
+   converted into a PNG image.
+
+   This avoids SVG dark-mode recolouring.
+
+   Original barcode dimensions are kept:
+   height 90, width 2, margin 10.
+======================================== */
 
 .barcode-title {
   font-size: 13px;
-  color: var(--muted);
+  color: #6b7280;
 }
 
 .barcode-value {
   font-size: 20px;
   font-weight: 600;
+
   margin: 6px 0 10px;
+
   overflow-wrap: anywhere;
-  color: #000000 !important;
+  color: #1f2937;
 }
 
-.barcode-wrap svg {
-  width: 100%;
+.barcode-wrap {
   background: #ffffff !important;
-  color-scheme: light;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  padding: 18px;
+  margin-top: 16px;
+
+  text-align: center;
+
+  color-scheme: only light;
+  forced-color-adjust: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.barcode-white-area {
+  background: #ffffff !important;
+
+  width: 100%;
+  padding: 0;
+
+  overflow: hidden;
+
+  color-scheme: only light;
   forced-color-adjust: none;
 }
 
-.barcode-wrap svg rect,
-.barcode-wrap svg path {
-  fill: #000000 !important;
+#barcodeImage {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  background: #ffffff !important;
+
+  image-rendering: auto;
+
+  filter: none !important;
+  -webkit-filter: none !important;
+
+  color-scheme: only light;
+  forced-color-adjust: none;
 }
+
+/*
+  Keep barcode image white in dark mode.
+  Do not force the bars and background
+  to the same colour.
+*/
+
+@media (prefers-color-scheme: dark) {
+
+  .barcode-wrap,
+  .barcode-white-area {
+    background: #ffffff !important;
+  }
+
+  #barcodeImage {
+    background: #ffffff !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+
+}
+
+/* ========================================
+   BARCODE NAVIGATION
+======================================== */
 
 .nav {
   display: flex;
@@ -193,19 +298,28 @@ button:disabled {
 
 .nav button {
   flex: 1;
+
   background: #f3f4f6;
   color: #1f2937;
-  border: 1px solid var(--border);
+
+  border: 1px solid #e5e7eb;
 }
 
-/* SCANNER */
+/* ========================================
+   CAMERA SCANNER
+======================================== */
 
 #scanner {
   display: none;
+
   position: fixed;
   inset: 0;
+
   background: #ffffff;
+  color: #1f2937;
+
   z-index: 9999;
+
   padding: 12px;
   overflow: auto;
 }
@@ -213,6 +327,7 @@ button:disabled {
 #reader {
   width: 100%;
   max-height: 45vh;
+
   overflow: hidden;
   border-radius: 10px;
 }
@@ -220,126 +335,167 @@ button:disabled {
 #scanValue {
   font-size: 20px;
   font-weight: 600;
+
   margin: 16px 0;
+
   overflow-wrap: anywhere;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- =====================================
+     HEADER
+===================================== -->
 
 <div class="header">
+
   <img
     src="https://hayley247.co.uk/wp-content/uploads/2024/03/hayley_247.svg"
     alt="Company logo"
-  />
-  <div class="title">EMIR job tracking tool</div>
+  >
+
+  <div class="title">
+    EMIR job tracking tool
+  </div>
+
 </div>
 
 <div class="container">
 
-  <!-- SETUP SCREEN -->
+<!-- =====================================
+     SETUP SCREEN
+===================================== -->
 
-  <div id="setupScreen" class="screen">
+<div id="setupScreen" class="screen">
 
-    <div class="card">
+  <div class="card">
 
-      <div id="prefillNotice" class="prefill-notice">
-        <strong>Job details loaded</strong>
-        Details have been filled in from Machine Shop
-        Task Manager. Please check them before
-        generating barcodes.
-      </div>
+    <div id="prefillNotice" class="prefill-notice">
 
-      <label for="username">Username</label>
-      <input
-        id="username"
-        placeholder="Enter username"
-        autocomplete="username"
-      />
+      <strong>Job details loaded</strong>
 
-      <label for="jobNumber">Job Number</label>
-      <input
-        id="jobNumber"
-        placeholder="e.g. 123456/A"
-      />
+      Details have been filled in from
+      Machine Shop Task Manager.
 
-      <button
-        type="button"
-        class="secondary"
-        onclick="startScan()"
-      >
-        Scan Job Number
-      </button>
-
-      <label for="taskSelect">Task</label>
-      <select id="taskSelect"></select>
-
-      <button
-        type="button"
-        class="primary"
-        onclick="generateSequence()"
-      >
-        Generate Barcodes
-      </button>
+      Please check them before generating
+      barcodes.
 
     </div>
 
-  </div>
+    <label for="username">
+      Username
+    </label>
 
-  <!-- BARCODE SCREEN -->
+    <input
+      id="username"
+      placeholder="Enter username"
+      autocomplete="username"
+    >
 
-  <div id="barcodeScreen" class="screen">
+    <label for="jobNumber">
+      Job Number
+    </label>
 
-    <div class="card">
+    <input
+      id="jobNumber"
+      placeholder="e.g. 123456/A"
+    >
 
-      <div
-        class="barcode-title"
-        id="barcodeTitle"
-      ></div>
+    <button
+      type="button"
+      class="secondary"
+      onclick="startScan()"
+    >
+      Scan Job Number
+    </button>
 
-      <div
-        class="barcode-value"
-        id="barcodeText"
-      ></div>
+    <label for="taskSelect">
+      Task
+    </label>
 
-      <div class="barcode-wrap">
-        <svg id="barcode"></svg>
-      </div>
+    <select id="taskSelect"></select>
 
-      <div class="nav">
-        <button
-          type="button"
-          onclick="prevBarcode()"
-        >
-          ◀ Previous
-        </button>
-
-        <button
-          type="button"
-          onclick="nextBarcode()"
-        >
-          Next ▶
-        </button>
-      </div>
-
-      <button
-        type="button"
-        class="secondary"
-        onclick="backToMenu()"
-      >
-        New Job
-      </button>
-
-    </div>
+    <button
+      type="button"
+      class="primary"
+      onclick="generateSequence()"
+    >
+      Generate Barcodes
+    </button>
 
   </div>
 
 </div>
 
-<!-- CAMERA SCANNER -->
+<!-- =====================================
+     BARCODE SCREEN
+===================================== -->
+
+<div id="barcodeScreen" class="screen">
+
+  <div class="card">
+
+    <div
+      id="barcodeTitle"
+      class="barcode-title"
+    ></div>
+
+    <div
+      id="barcodeText"
+      class="barcode-value"
+    ></div>
+
+    <div class="barcode-wrap">
+
+      <div class="barcode-white-area">
+
+        <img
+          id="barcodeImage"
+          alt="EMIR barcode"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="nav">
+
+      <button
+        type="button"
+        onclick="prevBarcode()"
+      >
+        ◀ Previous
+      </button>
+
+      <button
+        type="button"
+        onclick="nextBarcode()"
+      >
+        Next ▶
+      </button>
+
+    </div>
+
+    <button
+      type="button"
+      class="secondary"
+      onclick="backToMenu()"
+    >
+      New Job
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- =====================================
+     CAMERA SCANNER
+===================================== -->
 
 <div id="scanner">
 
@@ -386,61 +542,176 @@ button:disabled {
 </div>
 
 <script>
+
 "use strict";
 
-/* TASK DEFINITIONS */
+/* =====================================
+   EMIR TASK DEFINITIONS
+===================================== */
 
 const tasks = [
-  { name: "Admin",         code: "AD",    needsJob: false },
-  { name: "Breakdown",     code: "BDOWN", needsJob: false },
-  { name: "CAD",           code: "CAD",   needsJob: true  },
-  { name: "Driving",       code: "DR",    needsJob: false },
-  { name: "END",           code: "END",   needsJob: false },
-  { name: "Housekeeping",  code: "HK",    needsJob: false },
-  { name: "Inspection",    code: "INSP",  needsJob: true  },
-  { name: "Milling",       code: "MILL",  needsJob: true  },
-  { name: "Plant Repair",  code: "PL",    needsJob: false },
-  { name: "Slotting",      code: "SLOT",  needsJob: true  },
-  { name: "Team Leading",  code: "TL",    needsJob: false },
-  { name: "Training",      code: "TR",    needsJob: false },
-  { name: "Turning",       code: "TURN",  needsJob: true  },
-  { name: "Waiting Time",  code: "WT",    needsJob: false }
+
+  {
+    name: "Admin",
+    code: "AD",
+    needsJob: false
+  },
+
+  {
+    name: "Breakdown",
+    code: "BDOWN",
+    needsJob: false
+  },
+
+  {
+    name: "CAD",
+    code: "CAD",
+    needsJob: true
+  },
+
+  {
+    name: "Driving",
+    code: "DR",
+    needsJob: false
+  },
+
+  {
+    name: "END",
+    code: "END",
+    needsJob: false
+  },
+
+  {
+    name: "Housekeeping",
+    code: "HK",
+    needsJob: false
+  },
+
+  {
+    name: "Inspection",
+    code: "INSP",
+    needsJob: true
+  },
+
+  {
+    name: "Milling",
+    code: "MILL",
+    needsJob: true
+  },
+
+  {
+    name: "Plant Repair",
+    code: "PL",
+    needsJob: false
+  },
+
+  {
+    name: "Slotting",
+    code: "SLOT",
+    needsJob: true
+  },
+
+  {
+    name: "Team Leading",
+    code: "TL",
+    needsJob: false
+  },
+
+  {
+    name: "Training",
+    code: "TR",
+    needsJob: false
+  },
+
+  {
+    name: "Turning",
+    code: "TURN",
+    needsJob: true
+  },
+
+  {
+    name: "Waiting Time",
+    code: "WT",
+    needsJob: false
+  }
+
 ];
 
-const taskSelect = document.getElementById("taskSelect");
+/* =====================================
+   INITIALISE TASK SELECTOR
+===================================== */
+
+const taskSelect =
+  document.getElementById("taskSelect");
 
 tasks.forEach(task => {
-  const option = document.createElement("option");
+
+  const option =
+    document.createElement("option");
+
   option.value = task.name;
   option.textContent = task.name;
+
   taskSelect.appendChild(option);
+
 });
+
+/* =====================================
+   APPLICATION STATE
+===================================== */
 
 let barcodeSequence = [];
 let currentIndex = 0;
 
-/* SCREEN CONTROL */
+/* =====================================
+   SCREEN CONTROL
+===================================== */
 
 function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
 
-  document.getElementById(id).classList.add("active");
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen => {
+
+      screen.classList.remove("active");
+
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
 }
 
-/* QR LINK PRE-FILL SUPPORT */
+/* =====================================
+   QR CODE LINK PRE-FILL
+
+   Supported:
+
+   ?username=JSMITH&job=123456&task=Milling
+
+   Also supports:
+   employee
+   jobNumber
+
+   Task may be name or EMIR code.
+===================================== */
 
 function loadPrefilledDetails() {
-  const params = new URLSearchParams(window.location.search);
+
+  const params =
+    new URLSearchParams(window.location.search);
 
   const usernameParam =
-    params.get("username") ?? params.get("employee");
+    params.get("username") ??
+    params.get("employee");
 
   const jobParam =
-    params.get("job") ?? params.get("jobNumber");
+    params.get("job") ??
+    params.get("jobNumber");
 
-  const taskParam = params.get("task");
+  const taskParam =
+    params.get("task");
 
   const usernameInput =
     document.getElementById("username");
@@ -461,17 +732,26 @@ function loadPrefilledDetails() {
   let validTaskProvided = false;
 
   if (taskParam !== null) {
-    const requestedTask = taskParam.trim().toUpperCase();
 
-    const matchedTask = tasks.find(task =>
-      task.name.toUpperCase() === requestedTask ||
-      task.code.toUpperCase() === requestedTask
-    );
+    const requestedTask =
+      taskParam.trim().toUpperCase();
+
+    const matchedTask =
+      tasks.find(task =>
+
+        task.name.toUpperCase() === requestedTask ||
+        task.code.toUpperCase() === requestedTask
+
+      );
 
     if (matchedTask) {
+
       taskSelect.value = matchedTask.name;
+
       validTaskProvided = true;
+
     }
+
   }
 
   const hasPrefilledDetails =
@@ -479,10 +759,13 @@ function loadPrefilledDetails() {
     jobParam !== null ||
     validTaskProvided;
 
-  document.getElementById("prefillNotice").style.display =
-    hasPrefilledDetails ? "block" : "none";
+  document
+    .getElementById("prefillNotice")
+    .style.display =
+      hasPrefilledDetails ? "block" : "none";
 
   showScreen("setupScreen");
+
 }
 
 window.addEventListener(
@@ -490,323 +773,548 @@ window.addEventListener(
   loadPrefilledDetails
 );
 
-/* GENERATE EMIR BARCODE SEQUENCE */
+/* =====================================
+   GENERATE EMIR BARCODE SEQUENCE
+===================================== */
 
 function generateSequence() {
+
   const task = tasks.find(
     task => task.name === taskSelect.value
   );
 
-  const jobNumber = document
-    .getElementById("jobNumber")
-    .value
-    .trim()
-    .toUpperCase();
+  const username =
+    document
+      .getElementById("username")
+      .value
+      .trim()
+      .toUpperCase();
 
-  const username = document
-    .getElementById("username")
-    .value
-    .trim()
-    .toUpperCase();
+  const jobNumber =
+    document
+      .getElementById("jobNumber")
+      .value
+      .trim()
+      .toUpperCase();
 
   if (!task) {
+
     alert("Select task");
     return;
+
   }
 
   if (!username) {
+
     alert("Enter username");
     return;
+
   }
 
-  const code39Pattern = /^[A-Z0-9 .\-$/+%]+$/;
+  const code39Pattern =
+    /^[A-Z0-9 .\-$/+%]+$/;
 
   if (!code39Pattern.test(username)) {
+
     alert(
       "Username contains characters not supported by CODE39 barcodes"
     );
+
     return;
+
   }
 
   if (task.needsJob && !jobNumber) {
+
     alert("Enter job number");
     return;
+
   }
 
-  if (task.needsJob && !code39Pattern.test(jobNumber)) {
+  if (
+    task.needsJob &&
+    !code39Pattern.test(jobNumber)
+  ) {
+
     alert(
       "Job number contains characters not supported by CODE39 barcodes"
     );
+
     return;
+
   }
 
-  localStorage.setItem("lastUsername", username);
-  localStorage.setItem("lastJob", jobNumber);
+  localStorage.setItem(
+    "lastUsername",
+    username
+  );
+
+  localStorage.setItem(
+    "lastJob",
+    jobNumber
+  );
 
   barcodeSequence = [
+
     {
       title: "Employee",
       value: username
     }
+
   ];
 
   if (task.needsJob) {
+
     barcodeSequence.push({
+
       title: "Job Number",
       value: jobNumber
+
     });
+
   }
 
   barcodeSequence.push({
+
     title: "Task",
     value: task.code
+
   });
 
   currentIndex = 0;
 
   showScreen("barcodeScreen");
+
   showBarcode();
+
 }
 
-/* DISPLAY BARCODE */
+/* =====================================
+   HIGH CONTRAST BARCODE GENERATION
+
+   Render to CANVAS first.
+   Convert CANVAS to PNG image.
+
+   Original dimensions preserved:
+   height: 90
+   width: 2
+   margin: 10
+
+   Barcode colours:
+   Black: #000000
+   White: #ffffff
+===================================== */
 
 function showBarcode() {
-  const item = barcodeSequence[currentIndex];
+
+  const item =
+    barcodeSequence[currentIndex];
 
   if (!item) {
     return;
   }
 
-  document.getElementById("barcodeTitle").innerText =
-    item.title;
+  document
+    .getElementById("barcodeTitle")
+    .innerText = item.title;
 
-  document.getElementById("barcodeText").innerText =
-    item.value;
+  document
+    .getElementById("barcodeText")
+    .innerText = item.value;
 
-  document.getElementById("barcode").innerHTML = "";
+  const barcodeImage =
+    document.getElementById("barcodeImage");
 
   try {
-    JsBarcode("#barcode", item.value, {
+
+    /*
+      Create a temporary canvas.
+      This is not displayed directly.
+    */
+
+    const canvas =
+      document.createElement("canvas");
+
+    /*
+      Generate the CODE39 barcode
+      using the original dimensions.
+    */
+
+    JsBarcode(canvas, item.value, {
+
       format: "CODE39",
+
       displayValue: false,
 
-      /* Original barcode dimensions */
       height: 90,
+
       width: 2,
+
       margin: 10,
 
-      /* High-contrast colours */
       lineColor: "#000000",
+
       background: "#ffffff"
+
     });
 
     /*
-      Explicitly preserve barcode colours,
-      including on phones using dark mode.
-    */
-    const barcodeSvg = document.getElementById("barcode");
+      Convert the finished barcode
+      into a PNG image.
 
-    barcodeSvg.style.backgroundColor = "#ffffff";
-    barcodeSvg.style.colorScheme = "light";
-    barcodeSvg.style.forcedColorAdjust = "none";
+      The browser now sees a single
+      image instead of SVG elements.
+    */
+
+    const pngData =
+      canvas.toDataURL("image/png");
+
+    barcodeImage.src = pngData;
+
+    barcodeImage.style.backgroundColor =
+      "#ffffff";
+
+    barcodeImage.style.filter =
+      "none";
+
+    barcodeImage.style.webkitFilter =
+      "none";
 
   } catch (error) {
-    console.error("Barcode generation failed:", error);
+
+    console.error(
+      "Barcode generation failed:",
+      error
+    );
+
+    barcodeImage.removeAttribute("src");
 
     alert(
       "Could not generate barcode. Please check the details."
     );
 
     showScreen("setupScreen");
+
   }
+
 }
 
-/* BARCODE NAVIGATION */
+/* =====================================
+   BARCODE NAVIGATION
+===================================== */
 
 function nextBarcode() {
-  if (currentIndex < barcodeSequence.length - 1) {
+
+  if (
+    currentIndex <
+    barcodeSequence.length - 1
+  ) {
+
     currentIndex++;
+
     showBarcode();
+
   }
+
 }
 
 function prevBarcode() {
+
   if (currentIndex > 0) {
+
     currentIndex--;
+
     showBarcode();
+
   }
+
 }
 
 function backToMenu() {
+
   showScreen("setupScreen");
+
 }
 
-/* CAMERA SCANNER */
+/* =====================================
+   CAMERA SCANNER
+===================================== */
 
 let html5QrCode = null;
+
 let lastScanValue = "";
+
 let sameCount = 0;
+
 let confirmedScan = "";
+
 let scanSession = 0;
+
 let scannerStarting = false;
 
+/* RESET SCAN */
+
 function resetScanResult() {
+
   lastScanValue = "";
+
   sameCount = 0;
+
   confirmedScan = "";
 
-  document.getElementById("scanValue").innerText =
-    "Waiting for scan...";
+  document
+    .getElementById("scanValue")
+    .innerText =
+      "Waiting for scan...";
 
-  document.getElementById("acceptBtn").disabled = true;
+  document
+    .getElementById("acceptBtn")
+    .disabled = true;
+
 }
 
+/* CLEANUP SCANNER */
+
 async function cleanupScanner(scanner) {
+
   if (!scanner) {
     return;
   }
 
   try {
+
     if (
       scanner.getState &&
-      scanner.getState() === Html5QrcodeScannerState.SCANNING
+      scanner.getState() ===
+      Html5QrcodeScannerState.SCANNING
     ) {
+
       await scanner.stop();
+
     }
+
   } catch (error) {
-    console.warn("Could not stop scanner:", error);
+
+    console.warn(
+      "Could not stop scanner:",
+      error
+    );
+
   }
 
   try {
+
     scanner.clear();
+
   } catch (error) {
-    console.warn("Could not clear scanner:", error);
+
+    console.warn(
+      "Could not clear scanner:",
+      error
+    );
+
   }
+
 }
 
+/* START CAMERA */
+
 async function startScan() {
+
   if (
     scannerStarting ||
-    document.getElementById("scanner").style.display === "block"
+    document
+      .getElementById("scanner")
+      .style.display === "block"
   ) {
+
     return;
+
   }
 
   const session = ++scanSession;
 
   scannerStarting = true;
 
-  document.getElementById("scanner").style.display =
-    "block";
+  document
+    .getElementById("scanner")
+    .style.display = "block";
 
   resetScanResult();
 
   let scanner = null;
 
   try {
+
     scanner = new Html5Qrcode("reader");
+
     html5QrCode = scanner;
 
-    const devices = await Html5Qrcode.getCameras();
+    const devices =
+      await Html5Qrcode.getCameras();
 
     if (session !== scanSession) {
       return;
     }
 
     if (!devices || !devices.length) {
-      throw new Error("No camera available");
+
+      throw new Error(
+        "No camera available"
+      );
+
     }
 
-    const backCam = devices.find(device => {
-      const label = (device.label || "").toLowerCase();
+    const backCam =
+      devices.find(device => {
 
-      return (
-        label.includes("back") ||
-        label.includes("rear") ||
-        label.includes("environment")
-      );
-    });
+        const label =
+          (device.label || "")
+            .toLowerCase();
 
-    const cameraId = (backCam || devices[0]).id;
+        return (
+          label.includes("back") ||
+          label.includes("rear") ||
+          label.includes("environment")
+        );
+
+      });
+
+    const cameraId =
+      (backCam || devices[0]).id;
 
     await scanner.start(
+
       cameraId,
+
       {
+
         fps: 10,
+
         qrbox: {
+
           width: 240,
+
           height: 360
+
         }
+
       },
+
       decodedText => {
+
         if (session !== scanSession) {
           return;
         }
 
-        document.getElementById("scanValue").innerText =
-          decodedText;
+        document
+          .getElementById("scanValue")
+          .innerText = decodedText;
 
-        if (decodedText === lastScanValue) {
+        if (
+          decodedText === lastScanValue
+        ) {
+
           sameCount++;
+
         } else {
+
           lastScanValue = decodedText;
+
           sameCount = 1;
+
         }
 
         if (sameCount >= 3) {
+
           confirmedScan = decodedText;
 
-          document.getElementById("acceptBtn").disabled =
-            false;
+          document
+            .getElementById("acceptBtn")
+            .disabled = false;
+
         }
+
       }
+
     );
 
   } catch (error) {
-    if (session === scanSession) {
-      console.error("Scanner failed to start:", error);
 
-      document.getElementById("scanValue").innerText =
-        "Camera unavailable. You can cancel and enter the job number manually.";
+    if (session === scanSession) {
+
+      console.error(
+        "Scanner failed to start:",
+        error
+      );
+
+      document
+        .getElementById("scanValue")
+        .innerText =
+          "Camera unavailable. You can cancel and enter the job number manually.";
+
     }
+
   } finally {
+
     scannerStarting = false;
 
     if (session !== scanSession) {
+
       await cleanupScanner(scanner);
+
     }
+
   }
+
 }
 
+/* ACCEPT SCAN */
+
 function acceptScan() {
+
   if (!confirmedScan) {
     return;
   }
 
-  document.getElementById("jobNumber").value =
-    confirmedScan;
+  document
+    .getElementById("jobNumber")
+    .value = confirmedScan;
 
   stopScan();
+
 }
+
+/* SCAN AGAIN */
 
 function rescanScan() {
+
   resetScanResult();
+
 }
 
+/* STOP CAMERA */
+
 function stopScan() {
+
   ++scanSession;
 
-  document.getElementById("scanner").style.display =
-    "none";
+  document
+    .getElementById("scanner")
+    .style.display = "none";
 
   const scanner = html5QrCode;
 
   html5QrCode = null;
 
   if (!scannerStarting) {
+
     void cleanupScanner(scanner);
+
   }
+
 }
+
 </script>
 
 </body>
